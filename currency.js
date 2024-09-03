@@ -1,5 +1,17 @@
 
 let timeout;
+let APIKEY = "";
+
+const localurl = 'http://localhost/projektit_HTML/valuutat/.env';
+fetch(localurl)
+.then(response => response.json())  
+.then(data => {
+    console.log("data:",data);
+    APIKEY = data.APIKEY;
+    })
+.catch(error => { 
+    console.log('Error:', error);
+    });       
 
 let haetiedot = () => {
 /* haetaan tarkennettu valintalista palvelimelta,
@@ -17,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         /* e.preventDefault(); */
 
         /* Huom. vaihda oma APIKEY alla olevan tilalle, se ei toimi. */
-        const APIKEY = "gaxLoCRfgEfyRnnNwKTlN3rYjS7LQFHY";
+        //const APIKEY = "dummypass";
         //const SPSALASANA = "dummypass";
       
         let form = document.querySelector("#lomake");
@@ -27,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         console.log("dataObj:",dataObj);
         console.log("params:",params);
+        console.log("APIKEY:",APIKEY);
         
         var myHeaders = new Headers();
         myHeaders.append("apikey", APIKEY);
@@ -44,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
         //fetch(`https://api.apilayer.com/exchangerates_data/latest?${params}`, requestOptions)
         /* Ei tarvitse API Keytä: https://open.er-api.com/v6/latest/eur */
         /* https://api.boffsaopendata.fi/referencerates/api/ExchangeRate?eur */
+        /*     
+        
         fetch('https://api.boffsaopendata.fi/referencerates/api/ExchangeRate', {
                 method: 'GET',
                 // Request headers
@@ -56,8 +71,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(response.text());
             })
             .catch(err => console.error(err));
+        */
         
         const url = 'https://api.apilayer.com/exchangerates_data/latest?' + params;
+          
         fetch(url,requestOptions)
         .then(response => response.json())
         .then(data => {
